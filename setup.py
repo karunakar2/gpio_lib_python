@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-
+'''
 from distutils.core import setup, Extension
 
 classifiers = ['Development Status :: 5 - Production/Stable',
@@ -58,3 +58,37 @@ setup(name             = 'RPi.GPIO',
       classifiers      = classifiers,
       packages         = ['RPi'],
       ext_modules      = [Extension('RPi.GPIO', ['source/py_gpio_RPi.c', 'source/c_gpio.c', 'source/cpuinfo.c', 'source/event_gpio.c', 'source/soft_pwm.c', 'source/py_pwm.c', 'source/common.c', 'source/constants.c', 'source/wiringTB.c'])])
+'''
+
+from setuptools import setup, find_packages
+from pathlib import Path
+
+this_dir = Path(__file__).parent
+readme = ""
+if (this_dir / "README.md").exists():
+    readme = (this_dir / "README.md").read_text(encoding="utf-8")
+
+setup(
+    name="gpio_lib_python",
+    version="0.0.1",
+    description="GPIO helper library (updated for Python 3)",
+    long_description=readme,
+    long_description_content_type="text/markdown",
+    author="(original author)",
+    license="MIT",
+    packages=find_packages(where="."),
+    include_package_data=True,
+    install_requires=[
+        # Add runtime deps here if needed, e.g. "RPi.GPIO>=0.7" as an extra.
+    ],
+    extras_require={
+        "rpi": ["RPi.GPIO>=0.7"],
+        "gpiod": ["gpiod"],
+    },
+    python_requires=">=3.8",
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: POSIX :: Linux",
+    ],
+)
